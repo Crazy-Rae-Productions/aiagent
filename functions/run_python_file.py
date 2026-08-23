@@ -34,3 +34,28 @@ def run_python_file(working_directory: str, file_path: str, args: list[str] | No
         return "\n".join(output_parts)
     except Exception as e:
         return f"Error: executing Python file: {e}"
+
+schema_run_python_file = {
+    "type": "function",
+    "function": {
+        "name": "run_python_file",
+        "description": "Creates and runs a subprocess with optional arguments within a specified directory relative to the working directory, returning the appropriate standard output or error messages",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string",
+                    "description": "A Python file to execute, relative to the working directory (default is the working directory itself)",
+                },
+                "args": {
+                    "type": "array",
+                    "description": "A list of additional commands to run within the subprocess (may also be empty)",
+                    "items": {
+                        "type": "string",
+                    },
+                },
+            },
+            "required": ["file_path"],
+        },
+    },
+}
