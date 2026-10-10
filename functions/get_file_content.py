@@ -5,11 +5,12 @@ def get_file_content(working_directory: str, file_path: str) -> str:
     try:
         abs_work_dir = os.path.abspath(working_directory)
         target_file = os.path.normpath(os.path.join(abs_work_dir, file_path))
-        valid_target_dir = os.path.commonpath([abs_work_dir, target_file]) == abs_work_dir
+        valid_target_file = os.path.commonpath([abs_work_dir, target_file]) == abs_work_dir
     
-        if not valid_target_dir:
+        if not valid_target_file:
             return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
-        elif not os.path.isfile(target_file):
+        
+        if not os.path.isfile(target_file):
             return f'Error: File not found or is not a regular file: "{file_path}"'
 
         with open(target_file, "r") as f:
@@ -17,6 +18,7 @@ def get_file_content(working_directory: str, file_path: str) -> str:
 
             if f.read(1):
                 file_contents += f'[...File "{file_path}" truncated at {MAX_CHARS} characters]'
+            
             return file_contents
     except Exception as e:
         return f"Error: {e}"
@@ -25,13 +27,13 @@ schema_get_file_content = {
     "type": "function",
     "function": {
         "name": "get_file_content",
-        "description": "Open and read a specified file relative to the working directory, truncating files larger than the character limit",
+        "description": "Reads and returns the contents of a file within the working directory",
         "parameters": {
             "type": "object",
             "properties": {
                 "file_path": {
                     "type": "string",
-                    "description": "File path to open and read, relative to the working directory (default is the working directory itself)",
+                    "description": "Path to the file to read, relative to the working directory",
                 },
             },
             "required": ["file_path"],

@@ -8,7 +8,8 @@ def get_files_info(working_directory: str, directory: str = ".") -> str:
 
         if not valid_target_dir:
             return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
-        elif not os.path.isdir(target_dir):
+        
+        if not os.path.isdir(target_dir):
             return f'Error: "{directory}" is not a directory'
 
         dir_contents = os.listdir(target_dir)
@@ -40,7 +41,6 @@ schema_get_files_info = {
                     "description": "Directory path to list files from, relative to the working directory (default is the working directory itself)",
                 },
             },
-            "required": "directory",
         },
     },
 }

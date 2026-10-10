@@ -10,7 +10,9 @@ test4 = get_file_content("calculator", "/bin/cat")
 
 test5 = get_file_content("calculator", "pkg/does_not_exist.py")
 
+print(f"lorem.txt length: {len(test1)}")
 print(f"lorem.txt truncated: {'truncated' in test1}")
+
 print(test2)
 print(test3)
 print(test4)
